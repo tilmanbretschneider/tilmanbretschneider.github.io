@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tilman Bretschneider — Econometrics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #faf9f7;
+      --text: #1a1a18;
+      --muted: #6b6b65;
+      --accent: #2a4a8a;
+      --rule: #d4d2cc;
+      --paper: #f2f0ea;
+      --mono: 'JetBrains Mono', monospace;
+      --serif: 'Source Serif 4', Georgia, serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 17px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--serif);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--rule);
+      padding: 3.5rem 0 2.5rem;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+
+    .name-block h1 {
+      font-size: 2.2rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+    }
+
+    .name-block .subtitle {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      letter-spacing: 0;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.2rem;
+    }
+
+    nav a {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      text-decoration: none;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.15s;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    /* ── Sections ── */
+    section {
+      padding: 3.5rem 0;
+      border-bottom: 1px solid var(--rule);
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    section:nth-child(1) { animation-delay: 0.1s; }
+    section:nth-child(2) { animation-delay: 0.2s; }
+    section:nth-child(3) { animation-delay: 0.3s; }
+    section:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    /* ── About ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .about-text p { color: var(--text); margin-bottom: 1rem; font-size: 1rem; }
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .about-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+    }
+
+    .about-links a {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: opacity 0.15s;
+    }
+
+    .about-links a:hover { opacity: 0.65; }
+
+    .photo-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-placeholder span {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ── Research ── */
+    .paper + .paper { margin-top: 2rem; }
+
+    .paper-status {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border: 1px solid;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .paper-status.pub { color: #2a6a3a; border-color: #2a6a3a; }
+    .paper-status.wp { color: var(--accent); border-color: var(--accent); }
+    .paper-status.progress { color: var(--muted); border-color: var(--rule); }
+
+    .paper h3 {
+      font-size: 1.05rem;
+      font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: 0.3rem;
+    }
+
+    .paper h3 a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .paper h3 a:hover { color: var(--accent); }
+
+    .paper .authors {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 0.6rem;
+    }
+
+    .paper .authors a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .paper .authors a:hover { color: var(--accent); }
+
+    .paper .abstract {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+      display: none;
+      margin-top: 0.6rem;
+    }
+
+    .paper .abstract.open { display: block; }
+
+    .abstract-toggle {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.15s;
+    }
+
+    .abstract-toggle:hover { color: var(--accent); }
+
+    .paper-links {
+      margin-top: 0.6rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .paper-links a {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+
+    .paper-links a:hover { opacity: 0.6; }
+
+    /* ── Research groups ── */
+    .research-group { margin-bottom: 2.5rem; }
+    .research-group:last-child { margin-bottom: 0; }
+
+    .research-group-header {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      border-left: 2px solid var(--accent);
+      padding-left: 0.65rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .research-group + .research-group {
+      padding-top: 2.5rem;
+      border-top: 1px dashed var(--rule);
+    }
+
+    /* ── CV ── */
+    .cv-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    .cv-table tr { border-bottom: 1px solid var(--rule); }
+    .cv-table tr:last-child { border-bottom: none; }
+
+    .cv-table td {
+      padding: 0.75rem 0;
+      vertical-align: top;
+    }
+
+    .cv-table td:first-child {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+      width: 110px;
+      padding-top: 0.9rem;
+    }
+
+    .cv-table .cv-title { font-weight: 500; line-height: 1.3; }
+    .cv-table .cv-sub { font-size: 0.87rem; color: var(--muted); font-style: italic; }
+
+    .cv-section-head td {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-top: 2rem;
+      border-bottom: none;
+    }
+
+    .cv-download {
+      margin-top: 1.5rem;
+    }
+
+    .cv-download a {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--accent);
+      padding: 0.4rem 0.9rem;
+      display: inline-block;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .cv-download a:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 2rem 0 3rem;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 560px) {
+      .header-inner { flex-direction: column; align-items: flex-start; }
+      nav { flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 0.5rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .photo-placeholder { max-width: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="name-block">
+        <h1>Tilman Bretschneider</h1>
+
+      </div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#cv">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- About -->
+    <section id="about">
+      <div class="section-label">About</div>
+      <div class="about-grid">
+        <img src="TilmanBretschneider.jpg" alt="Tilman Bretschneider" style="width:100%; border: 1px solid var(--rule);">
+        <div class="about-text">
+          <p>
+            I am a Ph.D. candidate in Economics at Lund University.
+            My research field is Econometrics with a focus on panel data models.
+          </p>
+          <div class="about-links">
+            <a href="mailto:tilman.bretschneider@nek.lu.se">✉ tilman.bretschneider@nek.lu.se</a>
+            <a href="https://scholar.google.com/citations?user=3Fy1gfcAAAAJ&hl=en&oi=ao" target="_blank">◈ Google Scholar</a>
+            <a href="https://www.linkedin.com/in/tilman-bretschneider-8586021b7" target="_blank">in LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research -->
+    <section id="research">
+      <div class="section-label">Research</div>
+
+      <div class="research-group">
+        <div class="research-group-header">Publications</div>
+        <div class="paper">
+          <h3><a href="https://doi.org/10.1002/jae.70022" target="_blank">The PCDID Approach to Treatment Effects Estimation: A Further Investigation</a></h3>
+          <p class="authors">Tilman Bretschneider &amp; Joakim Westerlund — <em>Journal of Applied Econometrics</em>, 41(2), 2026</p>
+          <p class="abstract">
+            In the present paper, we study the so-called “PCDID” approach to treatment effects estimation in panels with interactive effects where the factors represent trends whose effect need not be parallel across the cross-sectional units. Our interest in this step-wise approach originates with the observation that the interactive effects are ignored in the first step, which should not be possible without affecting subsequent steps. We confirm that the estimated second-step factors are inconsistent in the empirically relevant scenario where the included covariates are correlated with the true factors. Interestingly enough, though, fixed effects demeaning, which is in theory unnecessary since fixed effects are special interactive effects, is shown to restore consistency of the final-step average treatment effects estimate; however, only under special circumstances. As a general solution to the inconsistency of the estimated factors, we propose an iterated PCDID version.
+          </p>
+          <div class="paper-links">
+            <a href="https://doi.org/10.1002/jae.70022">Paper</a>
+            <button class="abstract-toggle" onclick="toggleAbstract(this)">Abstract ↓</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="research-group">
+        <div class="research-group-header">Working Papers</div>
+        <div class="paper">
+          <h3><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6739748" target="_blank">Factor-Based Imputation Using Cross-Sectional Averages</a></h3>
+          <p class="authors">Tilman Bretschneider &amp; <a href="https://yousefkad.github.io/yousef-kaddoura.github.io/index.html" target="_blank">Yousef Kaddoura</a></p>
+          <p class="abstract">
+            Cross-sectional averages are widely used to impute missing values in panel data,
+            and are separately known to proxy the latent factors driving a panel. Combining
+            these two observations, we propose a new factor-based imputation method. We use
+            cross-sectional averages as factor estimates, recover unit-specific loadings by least
+            squares, and impute missing entries with the fitted common component. We derive
+            the asymptotic properties of the estimated factors, loadings, and imputations under
+            large N and large T asymptotics, accommodating general missing-data patterns.
+            We further allow the number of factors to be overspecified, a case most existing
+            approaches rule out, and show that overspecification leaves consistency unaffected
+            but alters the limiting distribution. For inference, we establish asymptotic results of
+            variance estimators when a block of units is fully observed, and propose two bootstrap
+            procedures for general missing patterns, one for confidence intervals and another for
+            prediction intervals. Applied to FRED-SD, a U.S. state-level macroeconomic panel,
+            the method clearly outperforms cross-sectional average and median imputation and
+            compares favourably to principal-component-based approaches. We further use it to
+            construct monthly state-level GDP growth indices that track quarterly GDP closely.
+          </p>
+          <div class="paper-links">
+            <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6739748">Paper</a>
+            <button class="abstract-toggle" onclick="toggleAbstract(this)">Abstract ↓</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CV -->
+    <section id="cv">
+      <div class="section-label">Curriculum Vitae</div>
+
+      <table class="cv-table">
+        <tr class="cv-section-head">
+          <td colspan="2">Education</td>
+        </tr>
+        <tr>
+          <td>2023 –</td>
+          <td>
+            <div class="cv-title">Ph.D. in Economics (Econometrics)</div>
+            <div class="cv-sub">Lund University, Main Advisor: Joakim Westerlund</div>
+          </td>
+        </tr>
+        <tr>
+          <td>2021 – 2023</td>
+          <td>
+            <div class="cv-title">M.Sc. in Economics</div>
+            <div class="cv-sub">Lund University</div>
+          </td>
+        </tr>
+        <tr>
+          <td>2017 – 2021</td>
+          <td>
+            <div class="cv-title">B.Sc. in Economics</div>
+            <div class="cv-sub">Kiel University</div>
+          </td>
+        </tr>
+
+          <tr class="cv-section-head">
+          <td colspan="2">Presentations & Seminars</td>
+        </tr>
+        <tr>
+          <td>2026</td>
+          <td>
+            <div class="cv-sub">31st International Panel Data Conference (Exeter)</div>
+            <div class="cv-sub">Nordic Econometric Meeting (Helsinki)</div>
+            <div class="cv-sub">Kiel University</div>
+            <div class="cv-sub">Uppsala University</div>
+          </td>
+        </tr>
+        <tr>
+          <td>2025</td>
+          <td>
+            <div class="cv-sub">13th SIdE PhD Workshop in Econometrics and Empirical Economics (Bertinoro)</div>
+            <div class="cv-sub">Nordic Workshop in Statistics and Econometrics (Gothenburg)</div>
+          </td>
+        </tr>
+
+
+      </table>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Tilman Bretschneider &nbsp;· &nbsp; Built with HTML/CSS</p>
+  </footer>
+
+</div>
+<script>
+  function toggleAbstract(btn) {
+    const abstract = btn.closest('.paper').querySelector('.abstract');
+    const open = abstract.classList.toggle('open');
+    btn.textContent = open ? 'Abstract ↑' : 'Abstract ↓';
+  }
+</script>
+</body>
+</html>
